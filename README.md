@@ -56,6 +56,14 @@ with option:
 	-r	Remove country using ISO 3166-2 or ISO 3166-3 country code.
 ```
 
+To-Do
+-----
+
+- [ ] Wipe database option (-w)
+- [ ] Detailed list option (-d)
+- [ ] Map visualization
+- [ ] Batch load of countries
+
 Donations
 ---------
 
