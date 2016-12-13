@@ -93,9 +93,9 @@ int main(int argc, char *argv[])
 		}			
 		break;
 
-		case Detail:
+		case Detail: 
 			displayStatsWithDetail(true);
-			break;
+		break;
 
 		case Wipe:
 			wipeData();

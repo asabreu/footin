@@ -5,6 +5,7 @@
 
 /* application includes */
 #include "display.h"
+#include "storage.h"
 
 #define KRESET			"\033[m"
 #define KBROWN			"\x1B[33m"
@@ -37,6 +38,14 @@ void displayUsage()
 
 void displayStatsWithDetail(bool detail)
 {
+	// if with detail get the stored countries key list
+	int count = 0;
+	char ** keys = NULL;
+	if (detail == true) {
+		count = db_count();
+		keys = db_allKeys(count);
+	}
+
 	// world value
 	printf("\n");
  	printContinentAndValue("World", getWorldValueStats());
@@ -51,6 +60,19 @@ void displayStatsWithDetail(bool detail)
 			char name[KNAMEWIDTH];
 			sprintf(name, "%s (%d from %d)", continents[i], countriesPerContinentCounter[i], countriesPerContinent[i]); 			
 			printContinentAndValue((char *)name, value);
+			
+			if (keys != NULL) {
+				for (int c = 0; c < count; c++) {
+				 	// find country by code
+					struct country_st * country = findCountry(keys[c]);
+					if (country != NULL) {
+						if (country->continentIndex == i) {
+							printf("\t");
+							displayCountryInfo(country, ""); 
+						}
+					}
+				}
+			}
 
 		} else {
 			printContinentAndValue((char *)continents[i], value);
