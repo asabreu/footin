@@ -3,16 +3,18 @@
 #include <string.h>
 #include <gdbm.h>
 
-#define datum_set(um, buf) { um.dptr = buf; um.dsize = strlen(buf); }
+/* application includes */
+#include "storage.h"
 
-const char *dbname = ".footin.db";
+#define datum_set(um, buf) { um.dptr = buf; um.dsize = strlen(buf); }
 
 char * get_dbpath()
 {
 	int MAX_PATH = 256;
-    char path[MAX_PATH];
-    snprintf(path, MAX_PATH, "%s/%s", getenv("HOME"), dbname);
-    return strdup(path);
+	char path[MAX_PATH];
+	snprintf(path, MAX_PATH, "%s/%s", getenv("HOME"), dbname);
+
+	return strdup(path);
 }
 
 int db_count()

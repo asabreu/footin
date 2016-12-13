@@ -59,7 +59,7 @@ with option:
 To-Do
 -----
 
-- [ ] Wipe database option (-w)
+- [x] Wipe database option (-w)
 - [ ] Detailed list option (-d)
 - [ ] Map visualization
 - [ ] Batch load of countries

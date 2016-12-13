@@ -7,6 +7,9 @@
 #include "display.h"
 #include "storage.h"
 
+/* forward declaration */
+void wipeData();
+
 int main(int argc, char *argv[])
 {
 	// get actiuon type from command line arguments
@@ -95,7 +98,7 @@ int main(int argc, char *argv[])
 			break;
 
 		case Wipe:
-			printf("wipe\n");
+			wipeData();
 			break;
 
 		default:
@@ -104,3 +107,23 @@ int main(int argc, char *argv[])
 
 	return 0;
 }
+
+/* private methods */
+
+void wipeData()
+{
+	char answer;
+	printf("This option will wipe all stored countries, do you want to continue (y/N)? ");
+	scanf("%c", &answer);
+
+	if (answer == 'y') {
+		char *filepath = get_dbpath();
+		int status = remove(filepath);
+ 
+   		if (status != 0) {
+			printf("Unable to delete the file %s\n", filepath);
+      		perror("Error");
+   		}
+	}
+}
+
