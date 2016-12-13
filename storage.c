@@ -129,7 +129,7 @@ int db_rm(char keyb[2])
 	return 0;
 }
 
-int db_add(char keyb[2], char datab[256]) 
+int db_add(char * keyb)
 {
 	GDBM_FILE dbf;
 	datum key, data;
@@ -140,7 +140,7 @@ int db_add(char keyb[2], char datab[256])
 	}
 
 	datum_set(key, keyb);
-	datum_set(data, datab);
+	datum_set(data, keyb);
 
 	if (gdbm_store(dbf, key, data, GDBM_INSERT)) {
 		//printf("%s\nRecord may be exist.\n", gdbm_strerror(gdbm_errno));

@@ -62,16 +62,20 @@ void displayStatsWithDetail(bool detail)
 			printContinentAndValue((char *)name, value);
 			
 			if (keys != NULL) {
+				bool countryFound = false;
 				for (int c = 0; c < count; c++) {
 				 	// find country by code
 					struct country_st * country = findCountry(keys[c]);
 					if (country != NULL) {
 						if (country->continentIndex == i) {
+							countryFound = true;
 							printf("\t");
 							displayCountryInfo(country, ""); 
 						}
 					}
 				}
+				 
+				if (countryFound == true) printf("\n");
 			}
 
 		} else {

@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
 				
 				if (action == Add) {
 					/* attempt add country to storage */
-					int r = db_add(country->codeAlpha2, country->name); 				
+					int r = db_add(country->codeAlpha2); 				
 					if (r == 0) {
 						success = true;
 						addCountryStats(country);
