@@ -61,7 +61,7 @@ To-Do
 -----
 
 - [x] Wipe database option (-w)
-- [ ] Detailed list option (-d)
+- [x] Detailed list option (-d)
 - [ ] Map visualization
 - [ ] Batch load of countries
 
