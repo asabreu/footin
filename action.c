@@ -4,8 +4,8 @@
 /* application includes */
 #include "action.h"
 
-enum actionType getActionType(int argc, char *argv[]) {
-	enum actionType result = Help; // defaults to Help
+enum action_type get_action_type(int argc, char *argv[]) {
+	enum action_type result = Help; // defaults to Help
 
 	if (argc == 1) {
 		return Display;

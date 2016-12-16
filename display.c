@@ -11,168 +11,166 @@
 #define KBROWN			"\x1B[33m"
 #define KCYAN			"\x1B[36m"
 
-#define KNAMEWIDTH		30	
+#define KNAMEWIDTH		30
 #define KVALUEWIDTH		5
 
 /* forward declaration */
-void printContinentAndValue(char *continentName, int value);
-void displayCountryInfo(struct country_st * country, const char * info);
-char *leftAlignStr(char *str, int width);
-char *rightAlignStr(char *str, int width);
-char *repeatStr(char *str, size_t count);
+void print_continent_and_value(char * continent_name, int value);
+void display_country_info(struct country_st * country, const char * info);
+char *left_align_string(char * str, int width);
+char *right_align_string(char * str, int width);
+char *repeat_string(char * str, size_t count);
 
-void displayUsage()
+void display_usage()
 {
 	printf("usage: footin [-d | -w | -h] [-a | -r] 'iso country code' ...\n\n");
-	
+
 	printf("without option, display stored countries coverage list.\n\n");
 
 	printf("with option:\n");
 	printf("\t-d\tDisplay stored countries coverage with detailed list.\n");
 	printf("\t-w\tWipe stored countries coverage list, the user is prompted for confirmation. \n");
 	printf("\t-h\tDisplay this usage help.\n\n");
-	
+
 	printf("\t-a\tAdd country using ISO 3166-2 or ISO 3166-3 country code.\n");
 	printf("\t-r\tRemove country using ISO 3166-2 or ISO 3166-3 country code.\n");
 }
 
-void displayStatsWithDetail(bool detail)
+void display_stats_with_detail(bool detail)
 {
 	// if with detail get the stored countries key list
 	int count = 0;
 	char ** keys = NULL;
 	if (detail == true) {
 		count = db_count();
-		keys = db_allKeys(count);
+		keys = db_all_keys(count);
 	}
 
 	// world value
 	printf("\n");
- 	printContinentAndValue("World", getWorldValueStats());
+ 	print_continent_and_value("World", get_world_value_stats());
 	printf("\n");
 
 	// each continent
-	int arraySize = sizeof(continents)/sizeof(continents[0]);
-	for (int i = 0; i < arraySize; i++) {
-		int value = (int)((countriesPerContinentCounter[i] * 100) / countriesPerContinent[i]);
-		
+	int array_size = sizeof(continents)/sizeof(continents[0]);
+	for (int i = 0; i < array_size; i++) {
+		int value = (int)((countries_per_continent_counter[i] * 100) / countries_per_continent[i]);
+
 		if (detail == true) {
 			char name[KNAMEWIDTH];
-			sprintf(name, "%s (%d from %d)", continents[i], countriesPerContinentCounter[i], countriesPerContinent[i]); 			
-			printContinentAndValue((char *)name, value);
-			
+			sprintf(name, "%s (%d from %d)", continents[i], countries_per_continent_counter[i], countries_per_continent[i]);
+			print_continent_and_value((char *)name, value);
+
 			if (keys != NULL) {
-				bool countryFound = false;
+				bool country_found = false;
 				for (int c = 0; c < count; c++) {
 				 	// find country by code
-					struct country_st * country = findCountry(keys[c]);
+					struct country_st * country = find_country(keys[c]);
 					if (country != NULL) {
-						if (country->continentIndex == i) {
-							countryFound = true;
+						if (country->continent_index == i) {
+							country_found = true;
 							printf("\t");
-							displayCountryInfo(country, ""); 
+							display_country_info(country, "");
 						}
 					}
 				}
-				 
-				if (countryFound == true) printf("\n");
+
+				if (country_found == true) printf("\n");
 			}
 
 		} else {
-			printContinentAndValue((char *)continents[i], value);
+			print_continent_and_value((char *)continents[i], value);
 		}
 	}
 
  	printf("\n");
 }
 
-void displayCountryNotFoundWithCode(char *code)
+void display_country_not_found_with_code(char * code)
 {
 	printf("Country with ISO 3166-%lu code '%s' not found!\n", strlen(code), code);
 }
 
-void displayCountryAdded(struct country_st * country)
+void display_country_added(struct country_st * country)
 {
-	displayCountryInfo(country, "added");
+	display_country_info(country, "added");
 }
 
-void displayCountryRemoved(struct country_st * country)
+void display_country_removed(struct country_st * country)
 {
-	displayCountryInfo(country, "removed");
+	display_country_info(country, "removed");
 }
 
-void displayCountryNotAdded(struct country_st * country)
+void display_country_not_added(struct country_st * country)
 {
-	displayCountryInfo(country, "not added, record already exist!");
+	display_country_info(country, "not added, record already exist!");
 }
- 
-void displayCountryNotRemoved(struct country_st * country)
+
+void display_country_not_removed(struct country_st * country)
 {
-	displayCountryInfo(country, "not removed, record not found!");
+	display_country_info(country, "not removed, record not found!");
 }
 
 /* private methods */
 
-void printContinentAndValue(char *continentName, int value)
+void print_continent_and_value(char * continent_name, int value)
 {
-	char *str = leftAlignStr(continentName, KNAMEWIDTH);
+	char *str = left_align_string(continent_name, KNAMEWIDTH);
 
-	char valueStr[5];
-	sprintf(valueStr, "%d", value);
-	strcat(valueStr, "%");
-    
+	char value_str[5];
+	sprintf(value_str, "%d", value);
+	strcat(value_str, "%");
+
 	printf(KBROWN "%s" KRESET, str);
 	printf("\t");
-	printf(KCYAN "%s" KRESET, rightAlignStr((char *)valueStr, KVALUEWIDTH));
+	printf(KCYAN "%s" KRESET, right_align_string((char *)value_str, KVALUEWIDTH));
 
 	printf("\n");
 }
 
-void displayCountryInfo(struct country_st * country, const char * info)
+void display_country_info(struct country_st * country, const char * info)
 {
-	char *codeAlpha3 = country->codeAlpha3;
-	if (codeAlpha3 == NULL) {
-		printf("%s (%s) %s\n", country->name, country->codeAlpha2, info);
+	char * code_alpha_3 = country->code_alpha_3;
+	if (code_alpha_3 == NULL) {
+		printf("%s (%s) %s\n", country->name, country->code_alpha_3, info);
 	} else {
-		printf("%s (%s, %s) %s\n", country->name, country->codeAlpha2, codeAlpha3, info);
+		printf("%s (%s, %s) %s\n", country->name, country->code_alpha_2, code_alpha_3, info);
 	}
 }
 
-char *leftAlignStr(char *str, int width)
+char * left_align_string(char * str, int width)
 {
-	int strLength = strlen(str);
-	int rightPadding = width - strLength;
-	if (rightPadding < 0) {
-		rightPadding = 0;
+	int str_length = strlen(str);
+	int right_padding = width - str_length;
+	if (right_padding < 0) {
+		right_padding = 0;
 	}
-		
-	char *padding = " ";
-	char *rightString = repeatStr(padding, rightPadding);
-	char *final = (char *) malloc(1 + width);
+
+	char * right_string = repeat_string(" ", right_padding);
+	char * final = (char *) malloc(1 + width);
 	strcat(final, str);
-	strcat(final, rightString);
+	strcat(final, right_string);
 
 	return final;
 }
 
-char *rightAlignStr(char *str, int width)
+char * right_align_string(char * str, int width)
 {
-	int strLength = strlen(str);
-	int leftPadding = width - strLength;
-	if (leftPadding < 0) {
-		leftPadding = 0;
+	int str_length = strlen(str);
+	int left_padding = width - str_length;
+	if (left_padding < 0) {
+		left_padding = 0;
 	}
-		
-	char *padding = " ";
-	char *leftString = repeatStr(padding, leftPadding);
-	char *final = (char *) malloc(1 + width);
-	strcat(final, leftString);
+
+	char * left_string = repeat_string(" ", left_padding);
+	char * final = (char *) malloc(1 + width);
+	strcat(final, left_string);
 	strcat(final, str);
 
 	return final;
 }
 
-char *repeatStr(char *str, size_t count) 
+char * repeat_string(char * str, size_t count)
 {
     if (count == 0) return NULL;
     char *ret = malloc (strlen(str) * count + count);
@@ -184,4 +182,3 @@ char *repeatStr(char *str, size_t count)
 
     return ret;
 }
-

@@ -8,101 +8,101 @@
 #include "storage.h"
 
 /* forward declaration */
-void wipeData();
+void wipe_data();
 
 int main(int argc, char *argv[])
 {
-	// get actiuon type from command line arguments
-	enum actionType action = getActionType(argc, argv);
+	// get action type from command line arguments
+	enum action_type action = get_action_type(argc, argv);
 
-	// Check if code argument is valid
+	// check if code argument is valid
 	if (action == Add || action == Remove) {
-		char *code = argv[2];
+		char * code = argv[2];
 		if (strlen(code) != 2 && strlen(code) != 3) { // only accept iso code with 2 or 3 chars
 			action = Help;
-		}	
+		}
 	}
 
-	// initialize countries and stats if action requires it 
+	// initialize countries and stats if action requires it
 	if (action != Wipe && action != Help) {
 		// initialize countries
-		initCountries();
+		init_countries();
 
 		// initialize stats
-		initStats();
+		init_stats();
 
 		/* load and process stored data */
 		int count = db_count();
-		char ** keys = db_allKeys(count);
+		char ** keys = db_all_keys(count);
 		if (keys != NULL) {
 			for (int i = 0; i < count; i++) {
 				 // find country by code
-				struct country_st * country = findCountry(keys[i]);
+				struct country_st * country = find_country(keys[i]);
 				if (country != NULL) {
-					addCountryStats(country);
+					add_country_stats(country);
 				}
 			}
-		}	
+		}
 	}
 
 	// process action
 	switch (action) {
 		case Display:
-			displayStatsWithDetail(false);	
+			display_stats_with_detail(false);
 			break;
 
 		case Add:
-		case Remove: 
+		case Remove:
 		{
 			// find country by code argument
-			struct country_st * country = findCountry(argv[2]);
+			struct country_st * country = find_country(argv[2]);
 			if (country == NULL) {
-				displayCountryNotFoundWithCode(argv[2]);
-			
+				display_country_not_found_with_code(argv[2]);
+
 			} else {
 				bool success = false;
-				
+
 				if (action == Add) {
 					/* attempt add country to storage */
-					int r = db_add(country->codeAlpha2); 				
+					int r = db_add(country->code_alpha_2);
 					if (r == 0) {
 						success = true;
-						addCountryStats(country);
-						displayCountryAdded(country);				
-					
+						add_country_stats(country);
+						display_country_added(country);
+
 					} else {
-						displayCountryNotAdded(country);
+						display_country_not_added(country);
 					}
-					
+
 				} else if (action == Remove) {
 					/* attempt remove country from storage */
-					int r = db_rm(country->codeAlpha2);
+					int r = db_rm(country->code_alpha_2);
 					if (r == 0) {
 						success = true;
-						removeCountryStats(country);
-						displayCountryRemoved(country);
-					
+						remove_country_stats(country);
+						display_country_removed(country);
+
 					} else {
-						displayCountryNotRemoved(country);
+						display_country_not_removed(country);
 					}
 				}
-				
-				// if operation succeeded then show stats
-				if (success == true) displayStatsWithDetail(false);
+
+				// if operation succeeded then show simple stats
+				if (success == true) display_stats_with_detail(false);
 			}
-		}			
+		}
 		break;
 
-		case Detail: 
-			displayStatsWithDetail(true);
+		case Detail:
+			display_stats_with_detail(true);
 		break;
 
 		case Wipe:
-			wipeData();
+			wipe_data();
 			break;
 
 		default:
-			displayUsage();
+			display_usage();
 	}
 
 	return 0;
@@ -110,20 +110,19 @@ int main(int argc, char *argv[])
 
 /* private methods */
 
-void wipeData()
+void wipe_data()
 {
 	char answer;
 	printf("This option will wipe all stored countries, do you want to continue (y/N)? ");
 	scanf("%c", &answer);
 
 	if (answer == 'y') {
-		char *filepath = get_dbpath();
-		int status = remove(filepath);
- 
+		char * file_path = get_db_path();
+		int status = remove(file_path);
+
    		if (status != 0) {
-			printf("Unable to delete the file %s\n", filepath);
-      		perror("Error");
+					printf("Unable to delete the file %s\n", file_path);
+					perror("Error");
    		}
 	}
 }
-

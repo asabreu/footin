@@ -4,12 +4,12 @@
 /* application includes */
 #include "countries.h"
 
-int * countriesPerContinentCounter; 
-int * countriesPerContinent;
+int * countries_per_continent_counter; 
+int * countries_per_continent;
 
-void initStats();
-void addCountryStats(struct country_st * country);
-void removeCountryStats(struct country_st * country);
-int getWorldValueStats();
+void init_stats();
+void add_country_stats(struct country_st * country);
+void remove_country_stats(struct country_st * country);
+int get_world_value_stats();
 
 #endif

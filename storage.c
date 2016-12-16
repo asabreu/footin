@@ -8,11 +8,11 @@
 
 #define datum_set(um, buf) { um.dptr = buf; um.dsize = strlen(buf); }
 
-char * get_dbpath()
+char * get_db_path()
 {
 	int MAX_PATH = 256;
 	char path[MAX_PATH];
-	snprintf(path, MAX_PATH, "%s/%s", getenv("HOME"), dbname);
+	snprintf(path, MAX_PATH, "%s/%s", getenv("HOME"), db_name);
 
 	return strdup(path);
 }
@@ -21,7 +21,7 @@ int db_count()
 {
 	GDBM_FILE dbf;
 	
-	dbf = gdbm_open(get_dbpath(), 0, GDBM_READER, 0, NULL);
+	dbf = gdbm_open(get_db_path(), 0, GDBM_READER, 0, NULL);
 	if (!dbf) {
 		//printf("%s\n", gdbm_strerror(gdbm_errno));
 		return 0;
@@ -43,11 +43,11 @@ int db_count()
 	return n;
 }
 
-char ** db_allKeys(int count)
+char ** db_all_keys(int count)
 {
 	GDBM_FILE dbf;
 
-	dbf = gdbm_open(get_dbpath(), 0, GDBM_READER, 0, NULL);
+	dbf = gdbm_open(get_db_path(), 0, GDBM_READER, 0, NULL);
 	if (!dbf) {
 		//printf("%s\n", gdbm_strerror(gdbm_errno));
 		return NULL;
@@ -83,7 +83,7 @@ int db_ls()
 {
 	GDBM_FILE dbf;
 
-	dbf = gdbm_open(get_dbpath(), 0, GDBM_READER, 0, NULL);
+	dbf = gdbm_open(get_db_path(), 0, GDBM_READER, 0, NULL);
 	if (!dbf) {
 		printf("%s\n", gdbm_strerror(gdbm_errno));
 		return 1;
@@ -111,7 +111,7 @@ int db_rm(char keyb[2])
 	GDBM_FILE dbf;
 	datum key;
 
-	dbf = gdbm_open(get_dbpath(), 0, GDBM_WRITER, 0, NULL);
+	dbf = gdbm_open(get_db_path(), 0, GDBM_WRITER, 0, NULL);
 	if (!dbf) {
 		//printf("%s\n", gdbm_strerror(gdbm_errno));
 		return 1;
@@ -134,7 +134,7 @@ int db_add(char * keyb)
 	GDBM_FILE dbf;
 	datum key, data;
 
-	if (!(dbf = gdbm_open(get_dbpath(), 0, GDBM_WRCREAT, 0644, NULL))) {
+	if (!(dbf = gdbm_open(get_db_path(), 0, GDBM_WRCREAT, 0644, NULL))) {
 		//printf("%s\n", gdbm_strerror(gdbm_errno));
 		return 1;
 	}

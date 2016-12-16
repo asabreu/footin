@@ -1,18 +1,23 @@
-enum continentType { Africa, Asia, Europe, North_America, South_America, Oceania, Antarctica };
+#ifndef COUNTRIES_H
+#define COUNTRIES_H
+
+enum continent_type { Africa, Asia, Europe, North_America, South_America, Oceania, Antarctica };
 
 static const char *continents[] = {"Africa", "Asia", "Europe", "North America", "South America", "Oceania", "Antarctica"};
 
 struct country_st {
-	char *codeAlpha2;
-	char *codeAlpha3;
+	char *code_alpha_2;
+	char *code_alpha_3;
 	char *name;
-	const char *continentName;
-	int continentIndex;
+	const char *continent_name;
+	int continent_index;
 };
 
 struct country_st *countries;
-extern int numberOfCountries;
+extern int number_of_countries;
 
-void initCountries();
-struct country_st * findCountry(const char *code);
-void printCountry(struct country_st * country);
+void init_countries();
+struct country_st * find_country(const char * code);
+void print_country(struct country_st * country);
+
+#endif

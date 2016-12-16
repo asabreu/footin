@@ -272,43 +272,43 @@ const char *iso_3166_table[][4] = {
 {"1", "XS", "null", "Spratly Islands"}
 };
 
-int numberOfCountries = 0;
+int number_of_countries = 0;
 
 /* forward declaration */
-struct country_st createCountry(char *codeAlpha2, char *codeAlpha3, char *name, enum continentType type);
+struct country_st create_country(char *code_alpha_2, char *code_alpha_3, char *name, enum continent_type type);
 
-void initCountries()
+void init_countries()
 {
-	numberOfCountries = sizeof(iso_3166_table)/sizeof(iso_3166_table[0]);
+	number_of_countries = sizeof(iso_3166_table)/sizeof(iso_3166_table[0]);
 	
-	countries = (struct country_st *)malloc(sizeof(struct country_st) * numberOfCountries);
+	countries = (struct country_st *)malloc(sizeof(struct country_st) * number_of_countries);
    
 	int i = 0;
-	for (i = 0; i < numberOfCountries; i++) {
-		const char *codeAlpha2 = iso_3166_table[i][1];
-		const char *codeAlpha3 = iso_3166_table[i][2];
+	for (i = 0; i < number_of_countries; i++) {
+		const char *code_alpha_2 = iso_3166_table[i][1];
+		const char *code_alpha_3 = iso_3166_table[i][2];
 		const char *name = iso_3166_table[i][3];
 		int continent =  atoi(iso_3166_table[i][0]);
     
-		countries[i] = createCountry((char *)codeAlpha2, (char *)codeAlpha3, (char *)name, continent);
+		countries[i] = create_country((char *)code_alpha_2, (char *)code_alpha_3, (char *)name, continent);
 	}
 }
 
-struct country_st * findCountry(const char *code) {
+struct country_st * find_country(const char *code) {
 	int i = 0;
 	if (code == NULL || (strlen(code) != 2 && strlen(code) != 3)) {
 		return NULL;
 	}
 
-	for (i = 0; i < numberOfCountries; i++) {
+	for (i = 0; i < number_of_countries; i++) {
 		struct country_st country = countries[i];
         if (strlen(code) == 2) {
-			if (!strncasecmp(country.codeAlpha2, code, 3)) {
+			if (!strncasecmp(country.code_alpha_2, code, 3)) {
 				return &countries[i];
          	}
 
 		} else {
-			if (!strncasecmp(country.codeAlpha3, code, 3)) {
+			if (!strncasecmp(country.code_alpha_3, code, 3)) {
 				return &countries[i];
 			}
 		}
@@ -317,29 +317,29 @@ struct country_st * findCountry(const char *code) {
 	return NULL;
 }
 
-void printCountry(struct country_st * country)
+void print_country(struct country_st * country)
 {
-	printf("code-alpha2: %s\n", country->codeAlpha2);
-	printf("code-alpha3: %s\n", country->codeAlpha3);
+	printf("code_alpha_2: %s\n", country->code_alpha_2);
+	printf("code_alpha_3: %s\n", country->code_alpha_3);
 	printf("name: %s\n", country->name);
-	printf("continent: %s\n", country->continentName);
+	printf("continent: %s\n", country->continent_name);
 }
 
 /* private methods */
 
-struct country_st createCountry(char *codeAlpha2, char *codeAlpha3, char *name, enum continentType type)
+struct country_st create_country(char *code_alpha_2, char *code_alpha_3, char *name, enum continent_type type)
 {   
 	struct country_st country;
-	country.codeAlpha2 = (char*)malloc(strlen(codeAlpha2) * sizeof(char) + 1);
-	country.codeAlpha3 = (char*)malloc(strlen(codeAlpha3) * sizeof(char) + 1);
+	country.code_alpha_2 = (char*)malloc(strlen(code_alpha_2) * sizeof(char) + 1);
+	country.code_alpha_3 = (char*)malloc(strlen(code_alpha_3) * sizeof(char) + 1);
 	country.name = (char*)malloc(strlen(name) * sizeof(char) + 1);
   
-	strcpy(country.codeAlpha2, codeAlpha2);
-	strcpy(country.codeAlpha3, codeAlpha3);
+	strcpy(country.code_alpha_2, code_alpha_2);
+	strcpy(country.code_alpha_3, code_alpha_3);
 	strcpy(country.name, name);
 
-	country.continentName = continents[(int)type];
-	country.continentIndex = (int)type;    
+	country.continent_name = continents[(int)type];
+	country.continent_index = (int)type;    
 
 	return country;
 }

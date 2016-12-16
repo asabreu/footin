@@ -5,54 +5,54 @@
 /* application includes */
 #include "stats.h"
 
-void initStats()
+void init_stats()
 {
-	int arraySize = sizeof(continents)/sizeof(continents[0]);
+	int array_size = sizeof(continents)/sizeof(continents[0]);
 
-	countriesPerContinentCounter = malloc(sizeof(int) * arraySize);
-	countriesPerContinent = malloc(sizeof(int) * arraySize); 
+	countries_per_continent_counter = malloc(sizeof(int) * array_size);
+	countries_per_continent = malloc(sizeof(int) * array_size);
 
 	// initialize all containers to zero
 	int i;
-	for (i = 0; i < arraySize; i++) {
-		countriesPerContinentCounter[i] = 0;
-		countriesPerContinent[i] = 0;
-	}  
+	for (i = 0; i < array_size; i++) {
+		countries_per_continent_counter[i] = 0;
+		countries_per_continent[i] = 0;
+	}
 
 	// count countries per continent
-	for (i = 0; i < numberOfCountries; i++) {
+	for (i = 0; i < number_of_countries; i++) {
 		struct country_st country = countries[i];
-		int continentIndex = country.continentIndex;
-		countriesPerContinent[continentIndex]++;
+		int continent_index = country.continent_index;
+		countries_per_continent[continent_index]++;
 	}
 }
 
-void addCountryStats(struct country_st * country)
+void add_country_stats(struct country_st * country)
 {
-	int continentIndex = country->continentIndex;
-	countriesPerContinentCounter[continentIndex]++;
+	int continent_index = country->continent_index;
+	countries_per_continent_counter[continent_index]++;
 }
 
-void removeCountryStats(struct country_st * country)
+void remove_country_stats(struct country_st * country)
 {
-	int continentIndex = country->continentIndex;
-	countriesPerContinentCounter[continentIndex]--;
+	int continent_index = country->continent_index;
+	countries_per_continent_counter[continent_index]--;
 }
 
-int getWorldValueStats()
+int get_world_value_stats()
 {
-	int arraySize = sizeof(continents)/sizeof(continents[0]);
+	int array_size = sizeof(continents)/sizeof(continents[0]);
 
-	int totalCountriesPerContinentCounter = 0;
-	int totalCountriesPerContinent = 0;	
+	int total_countries_per_continent_counter = 0;
+	int total_countries_per_continent = 0;
 
 	int i;
-	for (i = 0; i < arraySize; i++) {
-		totalCountriesPerContinentCounter += countriesPerContinentCounter[i];
-		totalCountriesPerContinent += countriesPerContinent[i];
+	for (i = 0; i < array_size; i++) {
+		total_countries_per_continent_counter += countries_per_continent_counter[i];
+		total_countries_per_continent += countries_per_continent[i];
 	}
 
-	int value = (int)((totalCountriesPerContinentCounter * 100) / totalCountriesPerContinent);
+	int value = (int)((total_countries_per_continent_counter * 100) / total_countries_per_continent);
 
 	return value;
 }
