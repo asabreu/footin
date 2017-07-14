@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/asabreu/footin.svg?branch=master)](https://travis-ci.org/asabreu/footin)
+
 # footin 
 
 An application to keep track of countries that you have visited. The application visualizes the visited countries both as a list, along with a ratio for each continent, and as a world map displaying the output in the UNIX terminal.
