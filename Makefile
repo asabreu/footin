@@ -1,4 +1,4 @@
-GDBM_DIR=/usr/local
+GDBM_DIR=/usr
 CFLAGS+=-I$(GDBM_DIR)/include
 LDFLAGS+=-L$(GDBM_DIR)/lib -lgdbm
 
