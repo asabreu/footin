@@ -2,6 +2,7 @@ before_install:
   - sudo apt-get -qq update
   - sudo apt-get install -y libgdbm-dev libgdbm3
 before_script:
+  - dpkg -L libgdbm-dev libgdbm3
   - ls -lisa /usr/local/include/
 language: c
 compiler: gcc
