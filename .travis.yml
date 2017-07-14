@@ -1,0 +1,6 @@
+before_install:
+  - sudo apt-get -qq update
+  - sudo apt-get install -y libgdbm-dev libgdbm3
+language: c
+compiler: gcc
+script: make
