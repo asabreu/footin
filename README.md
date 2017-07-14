@@ -21,6 +21,7 @@ Features
 Tested Environments
 -------------------
 
+* Free BSD
 * GNU Linux
 * MacOSX
 * Raspberry Pi
@@ -37,6 +38,22 @@ To clone the repository you should have Git installed. Just run:
 To build the application, run `make`.
 
 If build was successful, you should get a `footin` binary.
+
+#### Installation of development packages for `gdbm`
+
+**macOS X with `Homebrew`:**
+
+```
+bash
+    brew instal gdbm
+```
+
+**Debian & Ubuntu Linux:**
+
+```
+bash
+    sudo apt-get install libgdbm-dev libgdbm3    
+```
 
 Usage
 -----
