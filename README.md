@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/asabreu/footin.svg?branch=master)](https://travis-ci.org/asabreu/footin)
+![C/C++ CI](https://github.com/asabreu/footin/workflows/C/C++%20CI/badge.svg)
 
 # footin 
 
