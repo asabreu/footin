@@ -6,6 +6,8 @@
 /* application includes */
 #include "storage.h"
 
+static const char * db_name = ".footin.db";
+
 #define datum_set(um, buf) { um.dptr = buf; um.dsize = strlen(buf); }
 
 char * get_db_path()
