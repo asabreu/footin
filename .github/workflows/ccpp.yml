@@ -16,6 +16,6 @@ jobs:
     - name: Setup System
       run: |
         sudo apt-get -qq update
-        sudo apt-get install -y libgdbm-dev libgdbm3        
+        sudo apt-get install -y libgdbm-dev libgdbm5        
     - name: make
       run: make
